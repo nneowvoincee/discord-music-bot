@@ -1,7 +1,7 @@
 # dicord_music_bot
 ## 1.Quick start
 
-## 2.Commands
+## 2.Commands (outdated, update later)
 format:
 
 prefix-command (mandatory argument)  [optional argument]
