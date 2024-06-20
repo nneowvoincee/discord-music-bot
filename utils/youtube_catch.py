@@ -29,9 +29,9 @@ async def url_catch(url):   # search by url
     return result
 
 
-async def query_catch(search_query, limit=5):   # search by keyword
+async def query_catch(search_query, numOfResult=5):   # search by keyword
     with YoutubeDL(config.ytdl_options) as ydl:
-        arg = f"ytsearch{limit}:" + search_query
+        arg = f"ytsearch{numOfResult}:" + search_query
         loop = asyncio.get_event_loop()
         results = await loop.run_in_executor(None, lambda: ydl.extract_info(arg, download=False))
 
