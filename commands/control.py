@@ -27,7 +27,7 @@ class Control(commands.Cog):
             return
 
         # 加入频道
-        if interaction.user.voice.channel:
+        if interaction.user.voice:
             vc = interaction.guild.voice_client
             if not vc:
                 vc = await interaction.user.voice.channel.connect()
@@ -48,7 +48,7 @@ class Control(commands.Cog):
         return
 
     @app_commands.command(description='Jump to the target song.')
-    async def jump(self, interaction: discord.Interaction, num: int = None):
+    async def jump(self, interaction: discord.Interaction, num: int):
         server_data = self.bot.servers_data[interaction.guild.id]
         response = interaction.response
         queue = server_data['queue']
@@ -65,7 +65,6 @@ class Control(commands.Cog):
             return
 
         # connect to the channel if not
-
         vc = interaction.guild.voice_client
         if not vc:
             vc = await interaction.user.voice.channel.connect()
@@ -86,6 +85,7 @@ class Control(commands.Cog):
 
         if not vc:
             await response.send_message("I'm not in the channel")
+            return
 
         server_data['playback_continue'] = False
         vc.stop()
@@ -103,6 +103,7 @@ class Control(commands.Cog):
 
         if not vc:
             await response.send_message("I'm not in the channel")
+            return
 
         vc.pause()
         await response.send_message("Pause.")
@@ -115,6 +116,7 @@ class Control(commands.Cog):
 
         if not vc:
             await response.send_message("I'm not in the channel")
+            return
 
         vc.resume()
         await response.send_message("Resume.")
@@ -132,38 +134,21 @@ class Control(commands.Cog):
         await response.send_message("Skip.")
         return
 
-    @app_commands.command(description='Delete current/target/multiple songs.')
-    async def delete(self, interaction: discord.Interaction, start: int = None, end: int = None):
+    @app_commands.command(description='Delete target/multiple songs.')
+    async def delete(self, interaction: discord.Interaction, target: int, end: int = None):
         response = interaction.response
         server_data = self.bot.servers_data[interaction.guild.id]
         queue = server_data['queue']
         queue_length = len(queue)
         current_song = server_data['current_song']
 
-        if not (start or end):  # no arg is provided
+        if target and not end:  # one arg is provided
 
-            if current_song >= 0:  # already playing song (current_song = -1 when the bot doesn't begin playing songs)
-                await response.send_message(f'已从播放列表中移除: {queue[current_song][1]}')
-                del queue[current_song]
+            if 0 < target <= queue_length:
+                song = queue.pop(target - 1)
+                await response.send_message(f'已从播放列表中移除: {song["title"]}')
 
-                vc = interaction.guild.voice_client
-                if vc:  # skip the song
-                    server_data['current_song'] -= 1
-                    vc.stop()
-
-                return
-
-            else:
-                await response.send_message('nothing is deleted.')
-                return
-
-        elif start and not end:  # one arg is provided
-
-            if 0 < start <= queue_length:
-                song = queue.pop(start - 1)
-                await response.send_message(f'已从播放列表中移除: {song[1]}')
-
-                if start - 1 <= current_song:
+                if target - 1 <= current_song:
                     server_data['current_song'] -= 1
 
             else:
@@ -173,21 +158,21 @@ class Control(commands.Cog):
 
         else:  # both of args are provided
 
-            if start > end:
-                start, end = end, start
+            if target > end:
+                target, end = end, target
 
-            start = 0 if start < 0 else start
+            target = 0 if target < 0 else target
             end = queue_length if end > queue_length else end
 
-            if start == end:
+            if target == end:
                 await response.send_message('nothing is deleted')
 
-            first_song = queue[start - 1]
+            first_song = queue[target - 1]
             last_song = queue[end - 1]
-            del queue[(start - 1):end]
+            del queue[(target - 1):end]
 
             await response.send_message(
-                f'成功移除{end - start + 1}首歌:\n{start}.{first_song[1]}\n{"" if (start + 1 == end) else "..."}\n{end}.'
+                f'成功移除{end - target + 1}首歌:\n{target}.{first_song["title"]}\n{"" if (target + 1 == end) else "..."}\n{end}.'
                 f'{last_song[1]}\n ')
 
             return
