@@ -9,11 +9,12 @@ with open('config.txt', 'r', encoding='utf-8') as f:
             arg.append('')
         dic[arg[0]] = arg[1]    # arg_name:data
 
-for i in ['token', 'default_user', 'default_playmode']:
+for i in ['token', 'default_user', 'default_playmode', 'search_VIP_in_ytb']:
     if i not in dic.keys():
         raise KeyError(f'Missing "{i}" variable in config.txt')
 
-if dic['default_playmode'] == '':
+if dic['default_playmode'] not in ['default', 'loop', 'random']:
+    print('Unexpected value for default_playmode.')
     dic['default_playmode'] = 'default'
 
 if dic['token'] == '':

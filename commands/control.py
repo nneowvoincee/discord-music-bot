@@ -173,7 +173,7 @@ class Control(commands.Cog):
 
             await response.send_message(
                 f'成功移除{end - target + 1}首歌:\n{target}.{first_song["title"]}\n{"" if (target + 1 == end) else "..."}\n{end}.'
-                f'{last_song[1]}\n ')
+                f'{last_song["title"]}\n ')
 
             return
 
@@ -320,7 +320,6 @@ class Control(commands.Cog):
         await text_channel.send(f'正在播放: {song["title"]}\n{song["duration"]}\t--{song["uploader"]}\n ')
 
         return
-
 
 async def setup(bot: MusicBot) -> None:
     await bot.add_cog(Control(bot))

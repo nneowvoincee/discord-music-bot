@@ -80,12 +80,6 @@ async def on_voice_state_update(member, before, after):
 #    ctx = await client.get_context(message)
 #    await client.invoke(ctx)
 
-@bot.command()
-async def sync(ctx):
-    print("sync command")
-    await bot.tree.sync()
-    await ctx.send('Command tree synced.')
-
 
 @bot.command()
 async def join(ctx):
@@ -108,6 +102,10 @@ async def join(ctx):
 
     return
 
+@bot.command()
+async def sync(ctx):
+    fmt = await bot.tree.sync()
+    await ctx.send(f'{len(fmt)} commands synced.')
 
 @bot.command()
 async def test(ctx):

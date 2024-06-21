@@ -19,7 +19,6 @@ class Youtube(commands.Cog):
 
         await interaction.response.send_message('等我亿下......')
 
-
         songs_data = await youtube_catch.query_catch(keyword)
 
         await interaction.delete_original_response()
