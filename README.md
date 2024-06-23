@@ -1,7 +1,7 @@
 # dicord_music_bot
 ## 1.Quick start 
 
-----------
+
 ### 1.0 Download [Python](https://www.python.org/downloads/). (> 3.11)
 
  - And then download and extract the code and then run the following in terminal (virtual environment).
@@ -25,6 +25,8 @@ pip install -r requirements.txt
 
 ### 1.3 Run the bot
  - Run main.py, and then type `.sync` in discord channel to sync the slash command for the bot. (If nothing happen, you may run `.sync` again after about one hour. [Link](https://www.reddit.com/r/discordapp/comments/ukbu5h/1_hour_wait_on_global_slash_commands_gone/))
+
+----------
 
 ## 2.Commands (outdated, update later)
 format:
