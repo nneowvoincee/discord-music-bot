@@ -1,0 +1,6 @@
+token = 
+default_user = 
+default_playmode = default
+search_VIP_in_ytb = 1
+test_channel_id = 
+testing = 0
