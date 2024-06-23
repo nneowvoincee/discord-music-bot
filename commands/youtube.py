@@ -11,7 +11,7 @@ class Youtube(commands.Cog):
     def __init__(self, bot: MusicBot) -> None:
         self.bot = bot
 
-    @app_commands.command(description='Keyword searching in YouTube.')
+    @app_commands.command(name='youtube_search', description='Take keyword as parameter.')
     async def youtube_search(self, interaction: discord.Interaction, keyword: str):
         server_data = self.bot.servers_data[interaction.guild.id]
         queue = server_data['queue']
@@ -67,7 +67,7 @@ class Youtube(commands.Cog):
         msg_selectlist = await ctx.send(view=view)
         return
 
-    @app_commands.command(description='Url of YouTube video.')
+    @app_commands.command(name='url_search', description='Take url as parameter.')
     async def url_search(self, interaction: discord.Interaction, url: str):
         server_data = self.bot.servers_data[interaction.guild.id]
         queue = server_data['queue']

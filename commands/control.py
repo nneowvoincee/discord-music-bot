@@ -77,23 +77,16 @@ class Control(commands.Cog):
         await response.send_message(f'Jumo to: {queue[num]["title"]}')
         await self.play_next(vc=vc, text_channel=interaction.channel, server_data=server_data, next_song=num)
 
-    @app_commands.command(description='Stop playing song.')
-    async def stop(self, interaction: discord.Interaction):
-        server_data = self.bot.servers_data[interaction.guild.id]
+    @app_commands.command(description='Skip the current song.')
+    async def skip(self, interaction: discord.Interaction):
         vc = interaction.guild.voice_client
         response = interaction.response
 
         if not vc:
             await response.send_message("I'm not in the channel")
-            return
 
-        server_data['playback_continue'] = False
         vc.stop()
-        await response.send_message('Terminate.')
-
-        if server_data['current_song'] >= 0:
-            server_data['current_song'] -= 1
-
+        await response.send_message("Skip.")
         return
 
     @app_commands.command(description='Pause playing song.')
@@ -122,19 +115,87 @@ class Control(commands.Cog):
         await response.send_message("Resume.")
         return
 
-    @app_commands.command(description='Skip the current song.')
-    async def skip(self, interaction: discord.Interaction):
+    @app_commands.command(description='Stop playing song.')
+    async def stop(self, interaction: discord.Interaction):
+        server_data = self.bot.servers_data[interaction.guild.id]
         vc = interaction.guild.voice_client
         response = interaction.response
 
         if not vc:
             await response.send_message("I'm not in the channel")
+            return
 
+        server_data['playback_continue'] = False
         vc.stop()
-        await response.send_message("Skip.")
+        await response.send_message('Terminate.')
+
+        if server_data['current_song'] >= 0:
+            server_data['current_song'] -= 1
+
         return
 
-    @app_commands.command(description='Delete target/multiple songs.')
+    @app_commands.command(description="Display up to 50 songs from the currently songs/ begin(optional parameter).")
+    async def queue(self, interaction: discord.Interaction, begin: int = None):
+        server_data = self.bot.servers_data[interaction.guild.id]
+        queue = server_data['queue']
+        current_song = server_data['current_song']
+
+        if len(queue) == 0:
+            await interaction.response.send_message('Queue is empty.')
+            return
+
+        total = 20
+        prop = 0.3  # 显示前后歌曲数量的比例
+        display = ''
+        start = 0
+        before = int(total * prop)
+
+        if begin is None:
+            if current_song > before:
+                start = current_song - before
+                display += '...\n'
+            else:
+                start = 0
+
+        elif 0 < begin <= len(queue):
+            if begin > 1:
+                start = begin - 1
+                display += '...\n'
+            else:
+                start = 0
+
+        if start + total >= len(queue):     # 检测是否超出播放列表总量
+            end = len(queue)
+        else:
+            end = start + total
+
+        displaylist = []
+        for begin in range(start, end):  # 歌曲前面的歌曲
+            name = queue[begin]['title']
+
+            if len(display) + len(name) > 1800:  # discord消息超过2000字会被转成.txt文字档,所以要分开发送
+                displaylist.append(display)
+                display = ''
+
+            if begin == current_song:
+                display += '\n'.join(['--------------',
+                                      f'{begin + 1}. {queue[begin]["title"]}',
+                                      '--------------\n'])
+            else:
+                display += f'{begin + 1}. {queue[begin]["title"]}\n'
+
+        else:  # 结尾
+            if begin < len(queue) - 1:
+                display += '...'
+            displaylist.append(display)
+
+        await interaction.response.send_message(f'一共{len(queue)}首歌:\n')
+        for each in displaylist:
+            await interaction.channel.send(each)
+
+        return
+
+    @app_commands.command(description='One num given -> delete song/ Two num given -> delete songs between two numbers')
     async def delete(self, interaction: discord.Interaction, target: int, end: int = None):
         response = interaction.response
         server_data = self.bot.servers_data[interaction.guild.id]
@@ -213,67 +274,6 @@ class Control(commands.Cog):
 
             case _:
                 await response.send_message(f"Now: {server_data['play_mode']}")
-
-    @app_commands.command(description="Display up to 50 songs from the currently songs/ begin(optional parameter).")
-    async def queue(self, interaction: discord.Interaction, begin: int = None):
-        server_data = self.bot.servers_data[interaction.guild.id]
-        queue = server_data['queue']
-        current_song = server_data['current_song']
-
-        if len(queue) == 0:
-            await interaction.response.send_message('Queue is empty.')
-            return
-
-        total = 20
-        prop = 0.3  # 显示前后歌曲数量的比例
-        display = ''
-        start = 0
-        before = int(total * prop)
-
-        if begin is None:
-            if current_song > before:
-                start = current_song - before
-                display += '...\n'
-            else:
-                start = 0
-
-        elif 0 < begin <= len(queue):
-            if begin > 1:
-                start = begin - 1
-                display += '...\n'
-            else:
-                start = 0
-
-        if start + total >= len(queue):     # 检测是否超出播放列表总量
-            end = len(queue)
-        else:
-            end = start + total
-
-        displaylist = []
-        for begin in range(start, end):  # 歌曲前面的歌曲
-            name = queue[begin]['title']
-
-            if len(display) + len(name) > 1800:  # discord消息超过2000字会被转成.txt文字档,所以要分开发送
-                displaylist.append(display)
-                display = ''
-
-            if begin == current_song:
-                display += '\n'.join(['--------------',
-                                      f'{begin + 1}. {queue[begin]["title"]}',
-                                      '--------------\n'])
-            else:
-                display += f'{begin + 1}. {queue[begin]["title"]}\n'
-
-        else:  # 结尾
-            if begin < len(queue) - 1:
-                display += '...'
-            displaylist.append(display)
-
-        await interaction.response.send_message(f'一共{len(queue)}首歌:\n')
-        for each in displaylist:
-            await interaction.channel.send(each)
-
-        return
 
     # (helper function) Be called in the 'play' command function
     async def play_next(self, vc: discord.VoiceClient, text_channel, server_data, next_song=None):

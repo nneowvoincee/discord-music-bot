@@ -12,7 +12,7 @@ class Netease(commands.Cog):
     def __init__(self, bot: MusicBot) -> None:
         self.bot = bot
 
-    @app_commands.command(name='netease_search')
+    @app_commands.command(name='netease_search', description='Take keyword as parameter.')
     async def search(self, interaction: discord.Interaction, search_word: str):
         server_data = self.bot.servers_data[interaction.guild.id]
         queue = server_data['queue']
@@ -67,17 +67,17 @@ class Netease(commands.Cog):
         msg_selectlist = await ctx.send(view=view)
         return
 
-    @app_commands.command(name='netease_user')
-    async def user(self, interaction: discord.Interaction, search_word: str = default_user):
+    @app_commands.command(name='netease_user', description='Take username as parameter')
+    async def user(self, interaction: discord.Interaction, username: str = default_user):
         server_data = self.bot.servers_data[interaction.guild.id]
         session = server_data['user']['session']
         ctx = interaction.followup
 
         await interaction.response.send_message('等我亿下')
 
-        user_data = await netease_music_catch.user_catch(search_word, session)
+        user_data = await netease_music_catch.user_catch(username, session)
         if not user_data:
-            await ctx.send(f'No user found: {search_word}')
+            await ctx.send(f'No user found: {username}')
 
         server_data['user']['user_name'] = user_data['nickname']
         server_data['user']['id'] = user_data['id']
@@ -111,7 +111,7 @@ class Netease(commands.Cog):
         for each in displaylist:
             await ctx.send(each)
 
-    @app_commands.command(name='netease_playlist')
+    @app_commands.command(name='netease_playlist', description='Take playlist No. as parameter. If no parameter then display all playlists.')
     async def playlist(self, interaction: discord.Interaction, num: int = None):
         server_data = self.bot.servers_data[interaction.guild.id]
         queue = server_data['queue']

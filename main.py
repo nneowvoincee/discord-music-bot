@@ -13,7 +13,10 @@ bot = config.MusicBot(command_prefix=prefix, intents=intent)
 
 
 bot.remove_command('help')   # 删除默认的help指令
-extension_list = ["commands.control", "commands.netease", "commands.youtube"]
+extension_list = ["commands.control",
+                  "commands.netease",
+                  "commands.youtube"
+                 ]
 
 
 
@@ -104,8 +107,12 @@ async def join(ctx):
 
 @bot.command()
 async def sync(ctx):
-    fmt = await bot.tree.sync()
+    if config.testing:
+        fmt = await bot.tree.sync(guild=ctx.guild)
+    else:
+        fmt = await bot.tree.sync()
     await ctx.send(f'{len(fmt)} commands synced.')
+    print('synced')
 
 @bot.command()
 async def test(ctx):

@@ -37,44 +37,30 @@ testing = bool(int(dic['testing']))
 test_channel_id = int(dic['test_channel_id'])
 
 command_help = '''
-(mandatory argument)  [optional argument]
-
-.help\t\t\t\t\t\t\t\t\t\t\t -show command list
 --------------
 Add songs from NetEase Cloud Music:
 
-.search/s (song name)\t\t\t-search the song and add it to the queue
-.user [user name]\t\t\t\t\t -show user's playlists
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t(The default user will be set if the username isn't provided)
-.playlist/l [number]\t\t\t\t -add song of the playlist to the queue, 
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t if send command without number (only .playlist), 
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t the robot will show the list of the playlists again
+/netease_search\t\t\t\t-keyword searching
+/netease_user\t\t\t\t\t-Set user by name
+/netease_playlist\t\t\t\t -display playlist/add playlist to the queue
 
 --------------
-Add songs from Youtube: (PS: It supports url from some of other platforms (Facebook, Bilibili .etc)
+Add songs from Youtube:
 
-.youtube/yts (keywords/url of the videos/songs)
+.youtube_search -keyword searching
+.url_search
 
 --------------
 Control commands:
 
-.play\t\t\t\t\t\t\t\t\t\t\t\t  -to start playing the queue
-.jump (number)\t\t\t\t\t\t\t  -jump to the target song
-.skip
-.pause
-.resume
-.stop
+/play/jump/skip
+/pause/resume/stop
 
-.join\t\t\t\t\t\t\t\t\t\t\t\t\t\t  -move bot to your current channel
-.clear/cl\t\t\t\t\t\t\t\t\t\t\t\t  -clear the queue
-.delete/del [number] [number]\t   -delete songs from the queue
-.play_mode/pm (mode/number)\t-default(play the queue once only)/loop/random
-.queue [number] \t\t\t\t\t\t\t\t -show 50 songs of the queue
+/queue/delete/clear
+/play_mode
 
-.disconnect -leave the channel
-.save
-.load
-
+/save/load  (Not Implemented)
+--------------
 '''
 
 headers = {'X-Real-IP': '118.88.88.88',
