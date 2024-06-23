@@ -9,7 +9,8 @@ with open('config.txt', 'r', encoding='utf-8') as f:
             arg.append('')
         dic[arg[0]] = arg[1]    # arg_name:data
 
-for i in ['token', 'default_user', 'default_playmode', 'search_VIP_in_ytb']:
+for i in ['token', 'default_user', 'default_playmode', 'search_VIP_in_ytb',
+          'test_channel_id', 'testing']:
     if i not in dic.keys():
         raise KeyError(f'Missing "{i}" variable in config.txt')
 
@@ -20,12 +21,20 @@ if dic['default_playmode'] not in ['default', 'loop', 'random']:
 if dic['token'] == '':
     raise ValueError('Missing token in config.txt')
 
+if int(dic['testing']) and not dic['test_channel_id']:  # in testing mode but test_channel_id is empty
+    raise ValueError("You're in testing mode but the testing channel is missing. \n"
+                     " Or you can set 'testing' to 0 in config.txt to disable testing mode")
+
 token = dic['token']
 default_user = dic['default_user']  # 默认网易云用户名
 default_playmode = dic['default_playmode']    # default/loop/random
 search_VIP_in_ytb = bool(int(dic['search_VIP_in_ytb']))
 
 name_length_limit = 16
+
+# for debugging
+testing = bool(int(dic['testing']))
+test_channel_id = int(dic['test_channel_id'])
 
 command_help = '''
 (mandatory argument)  [optional argument]

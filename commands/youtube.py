@@ -4,7 +4,7 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ui import Select, Button, View
 
-from config import MusicBot
+from config import MusicBot, testing, test_channel_id
 from utils import youtube_catch
 
 class Youtube(commands.Cog):
@@ -100,4 +100,7 @@ class Youtube(commands.Cog):
         return
 
 async def setup(bot: MusicBot) -> None:
-    await bot.add_cog(Youtube(bot))
+    if testing:
+        await bot.add_cog(Youtube(bot), guilds=[discord.Object(id=test_channel_id)])
+    else:
+        await bot.add_cog(Youtube(bot))

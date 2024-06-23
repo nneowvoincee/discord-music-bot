@@ -4,7 +4,7 @@ from discord import app_commands
 from discord.ext import commands
 from discord.ui import Select, Button, View
 
-from config import MusicBot, default_user, name_length_limit
+from config import MusicBot, default_user, name_length_limit, testing, test_channel_id
 from utils import netease_music_catch
 
 
@@ -166,4 +166,7 @@ class Netease(commands.Cog):
 
 
 async def setup(bot: MusicBot) -> None:
-    await bot.add_cog(Netease(bot))
+    if testing:
+        await bot.add_cog(Netease(bot), guilds=[discord.Object(id=test_channel_id)])
+    else:
+        await bot.add_cog(Netease(bot))

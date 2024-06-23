@@ -4,7 +4,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from config import command_help, ffmpeg_options, MusicBot
+from config import command_help, ffmpeg_options, MusicBot, testing, test_channel_id
 
 
 class Control(commands.Cog):
@@ -322,4 +322,7 @@ class Control(commands.Cog):
         return
 
 async def setup(bot: MusicBot) -> None:
-    await bot.add_cog(Control(bot))
+    if testing:
+        await bot.add_cog(Control(bot), guilds=[discord.Object(id=test_channel_id)])
+    else:
+        await bot.add_cog(Control(bot))

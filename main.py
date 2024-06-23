@@ -109,7 +109,10 @@ async def sync(ctx):
 
 @bot.command()
 async def test(ctx):
-    print(bot.servers_data[ctx.guild.id])
+    if config.testing == True:
+        print()
+        print(ctx.guild.id, ':')
+        print(bot.servers_data[ctx.guild.id])
 
 @bot.command()
 async def vc(ctx):
