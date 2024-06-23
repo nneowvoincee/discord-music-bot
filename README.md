@@ -1,10 +1,35 @@
 # dicord_music_bot
-## 1.Quick start
+## 1.Quick start 
+
+----------
+### 1.0 Download [Python](https://www.python.org/downloads/). (> 3.11)
+
+ - And then download and extract the code and then run the following in terminal (virtual environment).
+```
+pip install -r requirements.txt
+```
+
+### 1.1 Create you Application(bot) on [Discord Developer Portal](https://discord.com/developers/applications).
+ - Many of YouTube video taught you that how to set up your bot, such as [this](https://www.youtube.com/watch?v=UYJDKSah-Ww) (2:16 - 6:30)
+
+### 1.2 Complete config
+ - Download the code and extract it, you will see a file named "config.txt" which should have five arguments:
+
+| argument         | description                                                                                                                                                                                                                                                             |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| token            | Token of your application created in 1.1                                                                                                                                                                                                                                |
+| default_user     | Use for the command "netease_user" for lazy people don't want to type the user name every time (can be empty)                                                                                                                                                           |
+| default_playmode | the default mode of playing songs in the queue <br> (value: default / loop / random)                                                                                                                                                                                    |  
+| test_channel_id  | the id of test channel (leave it empty if you don't need testing mode)                                                                                                                                                                                               |
+| testing | enable testing mode (when you sync the commands, only your test channel's will be synced, but instantly. Otherwise sync global commands for all channel need one hour.) <br> Just for the people who want to modify the code, otherwise just keep this value to be 0. |
+
+### 1.3 Run the bot
+ - Run main.py, and then type `.sync` in discord channel to sync the slash command for the bot. (If nothing happen, you may run `.sync` again after about one hour. [Link](https://www.reddit.com/r/discordapp/comments/ukbu5h/1_hour_wait_on_global_slash_commands_gone/))
 
 ## 2.Commands (outdated, update later)
 format:
 
-prefix-command (mandatory argument)  [optional argument]
+/command (mandatory argument)  [optional argument]
 
   
 

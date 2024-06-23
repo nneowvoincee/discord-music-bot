@@ -28,13 +28,13 @@ if int(dic['testing']) and not dic['test_channel_id']:  # in testing mode but te
 token = dic['token']
 default_user = dic['default_user']  # 默认网易云用户名
 default_playmode = dic['default_playmode']    # default/loop/random
-search_VIP_in_ytb = bool(int(dic['search_VIP_in_ytb']))
 
+search_VIP_in_ytb = True    # If the songs in NetEase music is VIP-required, it will try to find the same song in YouTube (but search song by yld is time-consuming)
 name_length_limit = 16
 
 # for debugging
 testing = bool(int(dic['testing']))
-test_channel_id = int(dic['test_channel_id'])
+test_channel_id = int(dic['test_channel_id']) if testing else 0
 
 command_help = '''
 --------------
