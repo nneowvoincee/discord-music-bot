@@ -25,55 +25,55 @@ pip install -r requirements.txt
 
 ### 1.3 Run the bot
  - Run main.py, and then type `.sync` in discord channel to sync the slash command for the bot. (If nothing happen, you may run `.sync` again after about one hour. [Link](https://www.reddit.com/r/discordapp/comments/ukbu5h/1_hour_wait_on_global_slash_commands_gone/))
-
+ - PS: If someone know how to sync global command instantly, please tell me xd.
 ----------
 
-## 2.Commands (outdated, update later)
+
+## 2.Commands (undone, update later)
 format:
 
 /command (mandatory argument)  [optional argument]
 
   
 
-|command|description|note|
-|---|---|---|
-|.help|-show command list||
+| command |description|note|
+|---------|---|---|
+| /help   |-show command list||
   
 <br>
 
 **Add songs from NetEase Cloud Music:**
-|command|abbr.|description|note|
-|---|---|---|---|
-|.search (song name)|.s|-search the song and add it to the queue|
-|.user [user name]||-show user's playlists|The default user(config.py) will be set if the username isn't provided|
-|.playlist [number]|.l| -add song of the playlist to the queue|if send command without number (only .playlist), the robot will show user's playlists again|
+
+| command                   | description                                                | note                                                                                |
+|---------------------------|------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| /netease_search (keyword) | search the song and add it to the queue                    |
+| /netease_user [username]  | set the user so that you can add it's playlist to the queue | The default user (provided in config.py) will be set if the username isn't provided |
+| /netease_playlist [number]| add No. of the playlist to the queue                       | if no arg provided, the bot will display all user's playlists again                 |
 
 <br>
 
 **Add songs from Youtube:**
-(PS: It supports url from some of other platforms (Facebook, Bilibili .etc)
 
-|command|abbr.|description|note|
-|---|---|---|---|
-|.youtube (keywords/url of the videos/songs)|.yts|-search the audio from YouTube/webite| the bot will search from YouTube if keywords are provided|
+| command                    | description                        | note                                                  |
+|----------------------------|------------------------------------|-------------------------------------------------------|
+| /youtube_search (keywords) | search by the keyword from YouTube |                                                       |
+| /url_search (url)          | add song by url                    | it support multiple websites (e.g. YouTube, BiliBili) |
 
 <br>
 
 **Control commands:**
 
-|command|abbr.|description|note|
-|---|---|---|---|
-|.play||-to start playing the queue|If the bot was already join other channel in this server, you may user command ".join" to move it to your channel.|
-|.jump (number)|.j|-jump to the target song|
-|.skip||-skip the current song and go to the next song|
-|.pause||-pause the music|
-|.resume||-resume the music|
-|.stop||-stop playing music|
-|.join||-let the bot join your channel|
-|.clear|.cl|-clear the queue|
-|.delete [number] [number]|.del|-delete songs from the queue| 0/1/2 arguments provided:<br>0. delete the current song<br>1. delete the target song<br>2. delete a range of songs|
-|.play_mode (mode/number)|.pm|-change the playmode|1. default: play the queue once only <br> 2. loop: loop the playlist <br> 3. random: shuffle the playlist|
-|.queue [number]||-show 50 songs of the queue|50 songs around the current song will be shown if no arument provided.|
-|.disconnect||-let the bot leaves the channel|
-|.save||unimplemented command|
-|.load||unimplemented command|
+| command                | description                                  | note                                                                                                                         |
+|------------------------|----------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| /play                  | to start playing the queue                   | If the bot was already join other channel in this server, you may user command ".join" to move it to your channel.           |
+| /jump (number)         | jump to the target song                      |
+| /skip                  | skip the current song and go to the next song |
+| /pause                 | pause the music                              |
+| /resume                | resume the music                             |
+| /stop                  | stop playing music                           |
+| /queue [number]        | show 20 songs of the queue                   | If no arg provided, the display will start at the current playing music, otherwised start at `number`                        |
+| /delete (target) [end] | delete songs from the queue                  | Only `target` provided -> delete song at `target` position <br> Both of args provided -> delete songs from `target` to `end` |
+| /clear                 | clear the queue                              |
+| /play_mode (mode)      | change the playmode                          | 1. default: play the queue once only <br> 2. loop: loop the playlist <br> 3. random: shuffle the playlist                    |
+| /save                  | unimplemented command                        |
+| /load                  | unimplemented command                        |
