@@ -2,12 +2,13 @@
 ## 1.Quick start 
 
 
-### 1.0 Download [Python](https://www.python.org/downloads/). (> 3.11)
+### 1.0 Download [Python 3.11](https://www.python.org/downloads/). (Or later version)
 
  - And then download and extract the code and then run the following in terminal (virtual environment).
 ```
 pip install -r requirements.txt
 ```
+ - If your python version isn't 3.11 (later or older version), you may have error for this step. If anything is fine then no problems. :P
 
 ### 1.1 Create you Application(bot) on [Discord Developer Portal](https://discord.com/developers/applications).
  - Many of YouTube video taught you that how to set up your bot, such as [this](https://www.youtube.com/watch?v=UYJDKSah-Ww) (2:16 - 6:30)
