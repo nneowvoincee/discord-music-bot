@@ -258,6 +258,7 @@ class Control(commands.Cog):
     async def playmode(self, interaction: discord.Interaction, mode: app_commands.Choice[str] = None):
         server_data = self.bot.servers_data[interaction.guild.id]
         response = interaction.response
+        mode = mode.value if mode else None
 
         match mode:
             case 'default':
@@ -322,7 +323,4 @@ class Control(commands.Cog):
         return
 
 async def setup(bot: MusicBot) -> None:
-    if testing:
-        await bot.add_cog(Control(bot), guilds=[discord.Object(id=test_channel_id)])
-    else:
         await bot.add_cog(Control(bot))

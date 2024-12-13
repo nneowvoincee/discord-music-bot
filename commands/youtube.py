@@ -100,7 +100,4 @@ class Youtube(commands.Cog):
         return
 
 async def setup(bot: MusicBot) -> None:
-    if testing:
-        await bot.add_cog(Youtube(bot), guilds=[discord.Object(id=test_channel_id)])
-    else:
-        await bot.add_cog(Youtube(bot))
+    await bot.add_cog(Youtube(bot))

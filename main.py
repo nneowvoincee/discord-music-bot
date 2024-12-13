@@ -111,6 +111,7 @@ async def sync(ctx):
         fmt = await bot.tree.sync(guild=ctx.guild)
     else:
         fmt = await bot.tree.sync()
+    fmt = await bot.tree.sync()
     await ctx.send(f'{len(fmt)} commands synced.')
     print('synced')
 

@@ -166,7 +166,4 @@ class Netease(commands.Cog):
 
 
 async def setup(bot: MusicBot) -> None:
-    if testing:
-        await bot.add_cog(Netease(bot), guilds=[discord.Object(id=test_channel_id)])
-    else:
-        await bot.add_cog(Netease(bot))
+    await bot.add_cog(Netease(bot))

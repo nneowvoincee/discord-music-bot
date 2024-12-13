@@ -4,7 +4,7 @@
 
 ### 1.0 Download [Python 3.11](https://www.python.org/downloads/). (Or later version)
 
- - And then download and extract the code and then run the following in terminal (virtual environment).
+ - And then clone the repository and then run the following in terminal (virtual environment).
 ```
 pip install -r requirements.txt
 ```
