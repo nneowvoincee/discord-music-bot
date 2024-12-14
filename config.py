@@ -69,8 +69,7 @@ headers = {'X-Real-IP': '118.88.88.88',
 
 ffmpeg_options = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-    'options': '-vn',
-    'method': 'fallback',
+    'options': '-vn -ar 48000 -ac 2 -b:a 64k',
     'executable': r'./tools/ffmpeg/bin/ffmpeg.exe'
 }
 

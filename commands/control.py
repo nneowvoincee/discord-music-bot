@@ -74,8 +74,8 @@ class Control(commands.Cog):
             vc.stop()
             await asyncio.sleep(1)
 
-        await response.send_message(f'Jumo to: {queue[num]["title"]}')
-        await self.play_next(vc=vc, text_channel=interaction.channel, server_data=server_data, next_song=num)
+        await response.send_message(f'Jump to: {queue[num]["title"]}')
+        await self.play_next(vc=vc, text_channel=interaction.channel, server_data=server_data, next_song=num-1)
 
     @app_commands.command(description='Skip the current song.')
     async def skip(self, interaction: discord.Interaction):
@@ -255,7 +255,7 @@ class Control(commands.Cog):
         app_commands.Choice(name="Default", value="default"),
         app_commands.Choice(name="Loop", value="loop"),
         app_commands.Choice(name="Random", value="random")])
-    async def playmode(self, interaction: discord.Interaction, mode: app_commands.Choice[str] = None):
+    async def mode(self, interaction: discord.Interaction, mode: app_commands.Choice[str] = None):
         server_data = self.bot.servers_data[interaction.guild.id]
         response = interaction.response
         mode = mode.value if mode else None
@@ -293,6 +293,7 @@ class Control(commands.Cog):
 
         if next_song:
             server_data['current_song'] = next_song
+            print(server_data['current_song'])
         elif play_mode == 'default':
             server_data['current_song'] += 1
 
@@ -301,6 +302,7 @@ class Control(commands.Cog):
 
         elif play_mode == 'random':
             server_data['current_song'] = random.randint(0, len(server_data['queue']) - 1)
+            print(server_data['current_song'])
 
         if server_data['play_mode'] == 'default' and server_data['current_song'] >= len(queue):
             server_data['current_song'] -= 1
@@ -312,7 +314,8 @@ class Control(commands.Cog):
         song = server_data['queue'][current_song]  # data
 
         loop = asyncio.get_running_loop()
-        source = await discord.FFmpegOpusAudio.from_probe(song['url'], **ffmpeg_options)
+        # source = await discord.FFmpegOpusAudio.from_probe(song['url'], **ffmpeg_options)
+        source = discord.FFmpegOpusAudio(song['url'], **ffmpeg_options)
         vc.play(source,
                 after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next(vc=vc,
                                                                                 text_channel=text_channel,
