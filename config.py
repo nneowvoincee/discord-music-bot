@@ -67,9 +67,11 @@ headers = {'X-Real-IP': '118.88.88.88',
            'cookie': "os=pc"}
 
 
+audio_quality = '44k' # depend on computer/server performance
+
 ffmpeg_options = {
     'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-    'options': '-vn -ar 48000 -ac 2 -b:a 64k',
+    'options': f'-vn -ar 48000 -ac 2 -b:a {audio_quality}',
     'executable': r'./tools/ffmpeg/bin/ffmpeg.exe'
 }
 
@@ -77,7 +79,8 @@ ffmpeg_options = {
 ytdl_options = {
     'quiet': True,
     'noplaylist': True,
-    'format': 'bestaudio/best'
+    'format': 'bestaudio/opus',
+
 }
 
 class MusicBot(commands.Bot):

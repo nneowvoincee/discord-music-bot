@@ -293,7 +293,6 @@ class Control(commands.Cog):
 
         if next_song:
             server_data['current_song'] = next_song
-            print(server_data['current_song'])
         elif play_mode == 'default':
             server_data['current_song'] += 1
 
@@ -302,7 +301,6 @@ class Control(commands.Cog):
 
         elif play_mode == 'random':
             server_data['current_song'] = random.randint(0, len(server_data['queue']) - 1)
-            print(server_data['current_song'])
 
         if server_data['play_mode'] == 'default' and server_data['current_song'] >= len(queue):
             server_data['current_song'] -= 1
